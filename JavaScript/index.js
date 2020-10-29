@@ -36,7 +36,7 @@ function handleChoosenAnswer(answer){
 //this function handles the difficulty change
 function changeQuestion(difficulty){
     $('.questions').empty();
-    setQuestionsAndActions(difficulty);
+    setQuestions(difficulty);
 }
 
 //this function handles appending questions to the html
@@ -46,8 +46,8 @@ function appendQuestions(triviaQuestion){
     $('.questions').append(questionsToAppend)
 }
 
-
-async function setQuestionsAndActions(difficulty){
+//sets the questions on html
+async function setQuestions(difficulty){
     triviaQuestion = await getQuestions(difficulty);
     appendQuestions(triviaQuestion); 
 }
@@ -56,7 +56,7 @@ async function setQuestionsAndActions(difficulty){
 function init(){
     mainTemplate(); //display game template
     const difficulty =  $('#difficulty').val();
-    setQuestionsAndActions(difficulty);
+    setQuestions(difficulty);
     attachEventHandlers();
 }
 
