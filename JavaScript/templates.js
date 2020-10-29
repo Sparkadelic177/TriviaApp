@@ -1,3 +1,5 @@
+
+//This function renders the game template 
 export function mainTemplate(){
     $(".triviaContainer").append(
     `<section class="upperSection">

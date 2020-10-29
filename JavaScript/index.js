@@ -1,6 +1,7 @@
 import { getQuestions } from "./api.js"
 import { mainTemplate, correctAnswerFeedBack, incorrectAnswerFeedBack } from "./templates.js"
 
+//this object will hold the information from trivia api
 let triviaQuestion = {};
 
 //this function handles attaching all of the event handlers
@@ -17,12 +18,15 @@ function attachEventHandlers(){
 //this function handles the answer that was choosen
 function handleChoosenAnswer(answer){
     const correctAnswer = triviaQuestion.correct_answer;
-    $('.triviaContainer').empty();
-    if(answer == triviaQuestion.correct_answer){
+    $('.triviaContainer').empty(); //remove the game template to append right / wrong card
+
+    if(answer === triviaQuestion.correct_answer){
         $('.triviaContainer').append(correctAnswerFeedBack(correctAnswer));
     }else{
         $('.triviaContainer').append(incorrectAnswerFeedBack(answer, correctAnswer));
     }
+
+    //after 3 seconds remove the feedback card and change question
     setTimeout(() => {
         $('.card').remove();
         changeQuestion();
@@ -44,10 +48,10 @@ function appendQuestions(triviaQuestion){
 
 //this function handles the main function of the app
 async function init(){
-    mainTemplate();
-    const difficulty = $("#difficulty").val();
+    mainTemplate(); //display game template
+    const difficulty = $("#difficulty").val(); 
     triviaQuestion = await getQuestions(difficulty);
-    appendQuestions(triviaQuestion);
+    appendQuestions(triviaQuestion); 
     attachEventHandlers();
 }
 
