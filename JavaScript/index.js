@@ -42,7 +42,7 @@ function changeQuestion(){
 //this function handles appending questions to the html
 function appendQuestions(triviaQuestion){
     let questionsToAppend = triviaQuestion.incorrect_answers.map(answer => `<button class="btn btn-primary answerBtn">${answer}</button>`)
-    $('.questions').append(`Queston: ${triviaQuestion.question}`)
+    $('.questions').append(`<h2>Queston:</h2> ${triviaQuestion.question}`)
     $('.questions').append(questionsToAppend)
 }
 
