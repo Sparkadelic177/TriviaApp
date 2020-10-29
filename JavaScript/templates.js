@@ -11,7 +11,6 @@ export function mainTemplate(){
       </select>
     </section>  
     <section>
-        <h3>Question Text</h3>
          <div class="questions">
          </div>
     </section>  
