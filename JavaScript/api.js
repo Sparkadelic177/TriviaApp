@@ -1,10 +1,11 @@
 //this function calls on the api to retrevie trivia information
 export async function getQuestions(difficulty){
-    
+
     const triviaQuestion = {
           question:"",
           correct_answer:"",
-          incorrect_answers:[]      
+          incorrect_answers:[],  
+          answers:[] 
     }
 
     try{ 
@@ -12,7 +13,8 @@ export async function getQuestions(difficulty){
         response = await response.json();
         triviaQuestion.question = response.results[0].question;
         triviaQuestion.correct_answer = response.results[0].correct_answer;
-        triviaQuestion.incorrect_answers =  shuffleArray([...response.results[0].incorrect_answers, response.results[0].correct_answer])
+        triviaQuestion.incorrect_answers =  response.results[0].incorrect_answers;
+        triviaQuestion.answers = shuffleArray([...response.results[0].incorrect_answers, response.results[0].correct_answer])
     }
     catch(error){
         alert("There was an issue with getting your trivia question, please try again in a few minutes");
