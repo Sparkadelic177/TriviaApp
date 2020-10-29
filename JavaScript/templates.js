@@ -10,7 +10,7 @@ export function mainTemplate(){
             <option value="hard">Hard</option>
       </select>
     </section>  
-    <section>
+    <section class="lowerSection">
          <div class="questions">
          </div>
     </section>  
