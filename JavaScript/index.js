@@ -3,23 +3,14 @@ import { mainTemplate, correctAnswerFeedBack, incorrectAnswerFeedBack } from "./
 
 //this object will hold the information from trivia api
 let triviaQuestion = {};
+let difficulty = "";
 
-//this function handles attaching all of the event handlers
-function attachEventHandlers(){
-    $('#difficulty').on('change', (event) => {
-        changeQuestion(event.target.value)
-     });
-
-    $('.answerBtn').on('click', (event) => {
-        handleChoosenAnswer(event.target.innerText);
-    })
-}
 
 //this function handles the answer that was choosen
-function handleChoosenAnswer(answer){
+function handleChoosenAnswer(event){
+    const answer = event.target.innerText
     const correctAnswer = triviaQuestion.correct_answer;
-    $('.triviaContainer').empty(); //remove the game template to append right / wrong card
-
+    $('.questions').empty(); //remove the game template to append right / wrong card
     if(answer === triviaQuestion.correct_answer){
         $('.triviaContainer').append(correctAnswerFeedBack(correctAnswer));
     }else{
@@ -29,35 +20,41 @@ function handleChoosenAnswer(answer){
     //after 3 seconds remove the feedback card and change question
     setTimeout(() => {
         $('.card').remove();
-        init();
+        changeQuestion()
     },3000)
 }
 
 //this function handles the difficulty change
-function changeQuestion(difficulty){
+async function changeQuestion(){
     $('.questions').empty();
-    setQuestions(difficulty);
+    await setQuestions();
+    $('.answerBtn').on('click', handleChoosenAnswer)
+}
+//sets the questions on html
+async function setQuestions(){
+    triviaQuestion = await getQuestions(difficulty);
+    appendQuestions(triviaQuestion);
 }
 
 //this function handles appending questions to the html
 function appendQuestions(triviaQuestion){
     let questionsToAppend = triviaQuestion.answers.map(answer => `<button class="btn btn-primary answerBtn">${answer}</button>`)
-    $('.questions').append(`<h2>Queston:</h2> ${triviaQuestion.question}`)
+    $('.questions').append(`<h2>Queston:</h2> <p>${triviaQuestion.question}</p>`)
     $('.questions').append(questionsToAppend)
 }
 
-//sets the questions on html
-async function setQuestions(difficulty){
-    triviaQuestion = await getQuestions(difficulty);
-    appendQuestions(triviaQuestion); 
+//gets the current difficulty
+function getDifficulty(){
+    difficulty = $('#difficulty').val();;
 }
 
 //this function handles the main function of the app
-function init(){
+async function init(){
     mainTemplate(); //display game template
-    const difficulty =  $('#difficulty').val();
-    setQuestions(difficulty);
-    attachEventHandlers();
+    getDifficulty();
+    await setQuestions();
+    $('#difficulty').on('change', changeQuestion);
+    $('.answerBtn').on('click', handleChoosenAnswer)
 }
 
 $(init);
