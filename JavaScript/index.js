@@ -25,9 +25,9 @@ function handleChoosenAnswer(event){
 
 //this function handles the difficulty change
 //Didn't get the difficulty here - done
-async function changeQuestion(){
+function changeQuestion(){
     $('.questions').empty();
-    await setQuestions();
+    setQuestions();
 }
 
 //sets the questions on html
