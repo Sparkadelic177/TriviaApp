@@ -5,14 +5,13 @@ import { mainTemplate, correctAnswerFeedBack, incorrectAnswerFeedBack } from "./
 let triviaQuestion = {};
 let difficulty = "";
 
-
 //this function handles the answer that was choosen
 function handleChoosenAnswer(event){
-    const answer = event.target.innerText
+    const answer = event.target.innerText //gets the users answer
     const correctAnswer = triviaQuestion.correct_answer;
     $('.questions').empty(); //remove the game template to append right / wrong card
     if(answer === triviaQuestion.correct_answer){
-        $('.triviaContainer').append(correctAnswerFeedBack(correctAnswer));
+        $('.triviaContainer').append(correctAnswerFeedBack());
     }else{
         $('.triviaContainer').append(incorrectAnswerFeedBack(answer, correctAnswer));
     }
@@ -25,11 +24,12 @@ function handleChoosenAnswer(event){
 }
 
 //this function handles the difficulty change
+//Didn't get the difficulty here - done
 async function changeQuestion(){
     $('.questions').empty();
     await setQuestions();
-    $('.answerBtn').on('click', handleChoosenAnswer)
 }
+
 //sets the questions on html
 async function setQuestions(){
     triviaQuestion = await getQuestions(difficulty);
@@ -37,24 +37,27 @@ async function setQuestions(){
 }
 
 //this function handles appending questions to the html
+//can settle the handler function for the buttons here
 function appendQuestions(triviaQuestion){
     let questionsToAppend = triviaQuestion.answers.map(answer => `<button class="btn btn-primary answerBtn">${answer}</button>`)
     $('.questions').append(`<h2>Queston:</h2> <p>${triviaQuestion.question}</p>`)
     $('.questions').append(questionsToAppend)
+    $('.answerBtn').on('click', handleChoosenAnswer)
 }
 
-//gets the current difficulty
-function getDifficulty(){
-    difficulty = $('#difficulty').val();;
+function setDifficulty(){
+    difficulty = $('#difficulty').val();
 }
 
 //this function handles the main function of the app
-async function init(){
+function init(){
     mainTemplate(); //display game template
-    getDifficulty();
-    await setQuestions();
-    $('#difficulty').on('change', changeQuestion);
-    $('.answerBtn').on('click', handleChoosenAnswer)
+    setDifficulty();
+    setQuestions();
+    $('#difficulty').on('change', () => {
+        setDifficulty()
+        changeQuestion()
+    });
 }
 
 $(init);
