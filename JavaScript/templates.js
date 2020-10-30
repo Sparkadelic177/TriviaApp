@@ -19,7 +19,7 @@ export function mainTemplate(){
 
 
 //this function handles a correct answer feedback
-export function correctAnswerFeedBack(correctAnswer){
+export function correctAnswerFeedBack(){
     $("body").append(`
     <div class="card text-white bg-success mb-3" style="max-width: 18rem;">
         <div class="card-header">Correct !</div>
